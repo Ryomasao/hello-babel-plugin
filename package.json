@@ -6,5 +6,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Ryomasao <konoemario@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ast-pretty-print": "^2.0.1",
+    "babel-log": "^2.0.0",
+    "babylon": "^6.18.0"
+  }
 }

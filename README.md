@@ -8,8 +8,11 @@ https://rabbit-house.tokyo/ast-book-sample.pdf
 
 ### メモ
 
-`identifier`:識別子
-`leteral`:識別子
+字句解析： トークナイズ  
+構文解析： 構文木の作成
+
+- `identifier`:識別子
+- `leteral`:識別子
 
 https://astexplorer.net/
 
