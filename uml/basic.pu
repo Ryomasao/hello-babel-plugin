@@ -1,0 +1,13 @@
+@startuml tree
+salt
+{
+  {T
+   + File
+   ++ Program
+   +++ ExpressionStatement
+   ++++ BinaryExpression
+   +++++ NumericLiteral
+   +++++ NumericLiteral
+  }
+}
+@enduml
