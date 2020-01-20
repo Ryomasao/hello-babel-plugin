@@ -13,7 +13,7 @@ const getCode = node => src.substr(node.start, node.end - node.start);
 //
 //                    File
 //                   /
-//                Progrmam
+//                Program
 //                 /
 //             ExpressionStatement:[array]
 //               /
