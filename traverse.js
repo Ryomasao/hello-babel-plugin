@@ -27,7 +27,7 @@ const getCode = node => src.substr(node.start, node.end - node.start);
 // ・NumericLiteralにはvalueがあるはず
 // ・BinaryExpressionにはopreatorがあるはず
 //
-const traverser = (node, exitVistor, indent = 0, key = "top") => {
+const traverser = (node, exitVisitor, indent = 0, key = "top") => {
   console.log(
     `${" ".repeat(indent)}key: ${key} enter: ${node.type} '${getCode(node)}'`
   );
@@ -41,9 +41,9 @@ const traverser = (node, exitVistor, indent = 0, key = "top") => {
 
     // ExpressionStatementはarrayでNodeをもつ
     if (Array.isArray(node[key])) {
-      res[key] = node[key].map(v => traverser(v, exitVistor, indent + 2, key));
+      res[key] = node[key].map(v => traverser(v, exitVisitor, indent + 2, key));
     } else {
-      res[key] = traverser(node[key], exitVistor, indent + 2, key);
+      res[key] = traverser(node[key], exitVisitor, indent + 2, key);
     }
   });
 
@@ -52,11 +52,11 @@ const traverser = (node, exitVistor, indent = 0, key = "top") => {
   );
 
   // 再帰処理なので、最下層のNodeに対して処理を行い、上の階層のresオブジェクトに結果を格納していく
-  return exitVistor[node.type](node, res, indent);
+  return exitVisitor[node.type](node, res, indent);
 };
 
 // この処理は一番下のNumerlicLiteralから上にコメント読んだ方が理解しやすい
-const exitVistor = {
+const exitVisitor = {
   File: (node, res) => {
     return res.program;
   },
@@ -74,9 +74,18 @@ const exitVistor = {
     // BinaryExpressionのleftとrightプロパティに、それぞれNodeがぶら下がっている。
     // ほんで、traverseはオブジェクトのkeyをぶん回して、Node型があれば再帰処理してるよね。
     // その結果をres[key]に格納している。
-    // なので、res[left]、res[right]には、NumericLiteralのvistor関数で処理した値、node.valueが入ってるんだ。
+    // なので、res[left]、res[right]には、NumericLiteralのvisitor関数で処理した値、node.valueが入ってるんだ。
+
+    // さらにいえば
+    // BinaryExpressionNodeのプロパティでNode型のものを処理した結果がres[propName]に保持されているはず！
     const { left, right } = res;
-    return left + right;
+    switch (node.operator) {
+      case "+":
+        return left + right;
+      default:
+        // このtraverserは加算処理しか実装していないのだ！
+        return left + right;
+    }
   },
   NumericLiteral: (node, res, indent) => {
     // 最下層の処理
@@ -86,6 +95,6 @@ const exitVistor = {
 
 const src = "1 + 2 - 3";
 const ast = babylon.parse(src);
-const results = traverser(ast, exitVistor, 0);
+const results = traverser(ast, exitVisitor, 0);
 console.log("");
 console.log(results);

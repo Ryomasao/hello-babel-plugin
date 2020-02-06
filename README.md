@@ -27,5 +27,10 @@ https://ja.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E7%B4%9A%E9%96%A2%E6%95%B0
 それぞれ、エコシステムで別のパッケージとしても使うことができる。
 
 `@babel/parser`:パーサー ※旧 babylon
+構文解析を行い、AST を作成する。
+
 `@babel/traverse`:トラバーサー
+AST を走査する機構。visitor パターンで走査しながら処理を行う。ソースコードを変更する場合は、変更後の AST をつくるイメージかな。
+
 `@babel/generator`:　ジェネレーター
+AST からソースコードを起こす機能。
