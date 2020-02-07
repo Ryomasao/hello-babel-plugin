@@ -15,6 +15,7 @@ module.exports = babel => {
     visitor: {
       VariableDeclaration: nodePath => {
         if (nodePath.node.kind === "var") {
+          // 直接書き換える
           nodePath.node.kind = "const";
         }
       },
