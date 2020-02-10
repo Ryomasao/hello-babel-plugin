@@ -5,7 +5,7 @@
 //  function hoge() { return 2 }
 // ※ return値をかえるのではなく関数定義そのものを置き換える
 
-module.exports = babel => {
+exports.default = babel => {
   // parseExpressionは、その名の通り式のみをparseできる
   // https://babeljs.io/docs/en/babel-parser#babelparserparseexpressioncode-options
   const { parseExpression, parse } = require("@babel/parser");
@@ -17,7 +17,10 @@ module.exports = babel => {
 
   return {
     visitor: {
-      FunctionDeclaration: nodePath => {
+      FunctionDeclaration: (nodePath, state) => {
+        // pluginのオプションは第二引数で取得できる
+        //console.log(state.opts);
+
         // これはNG。var a = 1はExpressionじゃなくってStatement
         //const newAst = parseExpression("var a = 1");
         // parse使えばいける
@@ -42,6 +45,26 @@ module.exports = babel => {
           //});
           //nodePath.replaceWith(FunctionNode);
 
+          nodePath.replaceWith(newAstByTemplate);
+          nodePath[WasReplaced] = true;
+        }
+      }
+    }
+  };
+};
+
+// ↑のプラグインを元に戻すためのプラグイン
+exports.re = babel => {
+  const { types: t, template } = babel;
+  const WasReplaced = Symbol("WasReplaced");
+
+  return {
+    visitor: {
+      FunctionDeclaration: nodePath => {
+        if (nodePath[WasReplaced] || !t.isIdentifier(nodePath.node.id)) return;
+        if (nodePath.node.id.name === "hoge") {
+          const src = "function reChange(){return 2}";
+          const newAstByTemplate = template(src)();
           nodePath.replaceWith(newAstByTemplate);
           nodePath[WasReplaced] = true;
         }
