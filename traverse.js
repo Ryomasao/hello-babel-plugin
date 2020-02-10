@@ -1,4 +1,4 @@
-// ASTをvistorパターンでtraverseする練習
+// ASTをvisitorパターンでtraverseする練習
 
 const babylon = require("babylon");
 const isNode = require("./isNode");
@@ -25,7 +25,7 @@ const getCode = node => src.substr(node.start, node.end - node.start);
 //
 // こうやって考えると、以下はすんなり理解できる
 // ・NumericLiteralにはvalueがあるはず
-// ・BinaryExpressionにはopreatorがあるはず
+// ・BinaryExpressionにはoperatorがあるはず
 //
 const traverser = (node, exitVisitor, indent = 0, key = "top") => {
   console.log(
@@ -55,7 +55,7 @@ const traverser = (node, exitVisitor, indent = 0, key = "top") => {
   return exitVisitor[node.type](node, res, indent);
 };
 
-// この処理は一番下のNumerlicLiteralから上にコメント読んだ方が理解しやすい
+// この処理は一番下のNumericLiteralから上にコメント読んだ方が理解しやすい
 const exitVisitor = {
   File: (node, res) => {
     return res.program;

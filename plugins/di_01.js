@@ -1,3 +1,9 @@
+// 以下を行うプラグイン
+// before
+// const hoge = require('data')
+// after
+// const hoge = require('dummy-data')
+
 module.exports = babel => {
   const { parseExpression } = require("@babel/parser");
   const { types: t } = babel;
@@ -11,6 +17,8 @@ module.exports = babel => {
         // idにはまたIdentifier型のNodeがあって、nameをもってる。
         // https://babeljs.io/docs/en/babel-types
         // ※VariableDeclarator→Identifierの紐づけが上記docからどうやって読み取るのかわからない
+
+        // const {hoge} =  require('data')の場合、idはIdentifierじゃなくなる！
         if (t.isIdentifier(node.id) && node.id.name === "hoge") {
           const newAst = parseExpression("require('dummy-data')");
 

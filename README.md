@@ -5,6 +5,13 @@ https://rabbit-house.tokyo/ast-book-sample.pdf
 # 読み解きたいもの
 
 https://github.com/zetachang/react-native-dotenv
+https://github.com/zetachang/react-native-dotenv/issues/67
+
+# 参考にするもの
+
+https://astexplorer.net/
+https://babeljs.io/docs/en/babel-types
+https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
 
 ### AST の木構造
 
